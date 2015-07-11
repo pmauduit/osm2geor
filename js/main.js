@@ -30,14 +30,20 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             buttonAlign: 'left',
             layout: 'fit',
             items: [{
-            	xtype     : 'textarea',
-                name      : 'overpassApiQuery',
-                fieldLabel: 'Overpass API query'
+            	xtype      : 'textarea',
+                name       : 'overpassApiQuery',
+                fieldLabel : 'Overpass API query',
+                value      : '[out:json][timeout:25];(                       \
+                                node["power"="substation"](S,W,N,E);         \
+                                way["power"="substation"](S,W,N,E);          \
+                              );                                             \
+                              out body;                                      \
+                              >;                                             \
+                              out skel qt;',
             }],
             fbar: ['->', {
                 text: OpenLayers.i18n("Execute"),
                 handler: function() {
-                	alert("blah");
                 },
                 scope:this
             },
