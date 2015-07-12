@@ -41,6 +41,9 @@ public class OverpassController {
             HttpResponse oPassResponse = httpclient.execute(httppost);
             HttpEntity entity = oPassResponse.getEntity();
 
+            int ret = oPassResponse.getStatusLine().getStatusCode();
+            String statusLine = oPassResponse.getStatusLine().getReasonPhrase();
+            if (ret == 200) {
             if (entity != null) {
                 InputStream instream = entity.getContent();
                 try {
@@ -52,6 +55,10 @@ public class OverpassController {
 
                     }
                 }
+            }
+            } else {
+                response.setStatus(ret);
+                objs = new JSONObject().put("status", statusLine);
             }
         } catch (Exception e) {
 

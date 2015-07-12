@@ -32,10 +32,11 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             items: [{
             	xtype      : 'textarea',
                 name       : 'overpassApiQuery',
+                id         : 'overpassApiQuery',
                 fieldLabel : 'Overpass API query',
                 value      : '[out:json][timeout:25];(                       \
-                                node["power"="substation"](S,W,N,E);         \
-                                way["power"="substation"](S,W,N,E);          \
+                                node["highway"]{{BBOX}};                     \
+                                way["highway"]{{BBOX}};                      \
                               );                                             \
                               out body;                                      \
                               >;                                             \
@@ -44,6 +45,22 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             fbar: ['->', {
                 text: OpenLayers.i18n("Execute"),
                 handler: function() {
+                	var ex = this.map.getExtent().transform(this.map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
+                	var query = this.win.findById('overpassApiQuery').value;
+                	query = query.replace(/{{BBOX}}/g, '(' + ex.bottom +',' +ex.left + ',' + ex.top +',' + ex.right +')');
+                	Ext.Ajax.request({
+                	    url: '/mapfishapp/ws/osm2geor/q',
+                	    method: 'POST',          
+                	    params: {
+                	        data: query
+                	    },
+                	    success: function(response) {
+                	    	debugger;
+                	    },                                    
+                	    failure: function() {
+                	    	alert('failure');
+                	    }
+                	});
                 },
                 scope:this
             },
