@@ -44,18 +44,19 @@ public class OverpassController {
             int ret = oPassResponse.getStatusLine().getStatusCode();
             String statusLine = oPassResponse.getStatusLine().getReasonPhrase();
             if (ret == 200) {
-            if (entity != null) {
-                InputStream instream = entity.getContent();
-                try {
-                    objs = new JSONObject(IOUtils.toString(instream));
-                } finally {
+                if (entity != null) {
+                    InputStream instream = entity.getContent();
                     try {
-                        instream.close();
-                    } catch (Exception e) {
+                        objs = new JSONObject(IOUtils.toString(instream));
+                        objs = OverpassJSONUtils.toGeoJSON(objs);
+                    } finally {
+                        try {
+                            instream.close();
+                        } catch (Exception e) {
 
+                        }
                     }
                 }
-            }
             } else {
                 response.setStatus(ret);
                 objs = new JSONObject().put("status", statusLine);

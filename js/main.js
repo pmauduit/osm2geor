@@ -18,7 +18,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                 scope:   this
         });
     },
-    
+
     createWindow: function() {
         return new Ext.Window({
             closable: true,
@@ -49,14 +49,17 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                 	var query = this.win.findById('overpassApiQuery').value;
                 	query = query.replace(/{{BBOX}}/g, '(' + ex.bottom +',' +ex.left + ',' + ex.top +',' + ex.right +')');
                 	Ext.Ajax.request({
+                        scope: this,
                 	    url: '/mapfishapp/ws/osm2geor/q',
                 	    method: 'POST',          
                 	    params: {
                 	        data: query
                 	    },
                 	    success: function(response) {
-                	    	debugger;
-                	    },                                    
+                                features = (new OpenLayers.Format.GeoJSON()).read(response.responseText);
+                                this.layer.removeAllFeatures();
+                                this.layer.addFeatures(features);
+                            },
                 	    failure: function() {
                 	    	alert('failure');
                 	    }
