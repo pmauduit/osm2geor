@@ -21,7 +21,6 @@ public class OverpassJSONUtilsTest {
 
         JSONObject ret = OverpassJSONUtils.toGeoJSON(testInput);
 
-        System.out.println(ret.toString(4));
         assertTrue("Expected 40 features, found " + ret.getJSONArray("features").length(),
                 ret.getJSONArray("features").length() == 40);
         // TODO better checks ...
