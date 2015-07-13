@@ -4,6 +4,8 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
     win: null,
     layer: null,
     item: null,
+    _textArea: null,
+    _keepPreviousFeatures: null,
 
     init: function(record) {
         this.layer = new OpenLayers.Layer.Vector("__georchestra_osm2geor", {
@@ -19,43 +21,45 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
     },
 
     createWindow: function() {
+        this._textArea = new Ext.form.TextArea({
+            name       : 'overpassApiQuery',
+            fieldLabel : 'Overpass API query',
+            value      : '[out:json][timeout:25];(        \n \
+                            node["highway"]{{BBOX}};      \n \
+                            way["highway"]{{BBOX}};       \n \
+                          );                              \n \
+                          out body;                       \n \
+                          >;                              \n \
+                          out skel qt;',
+        });
+        this._keepPreviousFeatures = new Ext.form.Checkbox({
+           boxLabel   : 'Keep previously loaded features',
+           checked    : false
+        });
         return new Ext.Window({
             closable: true,
             closeAction: 'hide',
-            width: 330,
+            width: 500,
             height: 270,
             title: "OSM 2 geOrchestra",
             border: false,
             buttonAlign: 'left',
             layout: 'fit',
-            items: [{
-            	xtype      : 'textarea',
-                name       : 'overpassApiQuery',
-                id         : 'overpassApiQuery',
-                fieldLabel : 'Overpass API query',
-                value      : '[out:json][timeout:25];(                       \
-                                node["highway"]{{BBOX}};                     \
-                                way["highway"]{{BBOX}};                      \
-                              );                                             \
-                              out body;                                      \
-                              >;                                             \
-                              out skel qt;',
-            }],
+            items: [ this._textArea ],
             listeners: {
                 'show': function() {
-                    this.map.addLayer(this.layer);
-                },
-                'hide': function() {
-                    this.map.removeLayer(this.layer);
+                    if (OpenLayers.Util.indexOf(this.map.layers, this.layer) < 0) {
+                        this.map.addLayer(this.layer);
+                    }
                 },
                 scope: this
             },
 
-            fbar: ['->', {
+            fbar: ['->', this._keepPreviousFeatures, {
                 text: OpenLayers.i18n("Execute"),
                 handler: function() {
                 	var ex = this.map.getExtent().transform(this.map.getProjectionObject(), new OpenLayers.Projection("EPSG:4326"));
-                	var query = this.win.findById('overpassApiQuery').value;
+                	var query = this._textArea.getValue();
                 	query = query.replace(/{{BBOX}}/g, '(' + ex.bottom +',' +ex.left + ',' + ex.top +',' + ex.right +')');
                 	Ext.Ajax.request({
                         scope: this,
@@ -69,7 +73,9 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                                    externalProjection: new OpenLayers.Projection("EPSG:4326"),
                                    internalProjection: this.map.getProjectionObject() 
                                 })).read(response.responseText);
-                                this.layer.removeAllFeatures();
+                                if (this._keepPreviousFeatures.checked == false) {
+                                    this.layer.removeAllFeatures();
+                                }
                                 this.layer.addFeatures(features);
                             },
                 	    failure: function() {
