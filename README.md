@@ -39,3 +39,7 @@ ADDONS: [...,
 ```
 
 Restart your tomcat containing mapfishapp, you should be good to go.
+
+# Usage sample (video)
+
+[![Using the plugin](http://img.youtube.com/vi/PZ1m3yg_et8/0.jpg)](http://www.youtube.com/watch?v=PZ1m3yg_et8)
