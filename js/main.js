@@ -7,8 +7,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
 
     init: function(record) {
         this.layer = new OpenLayers.Layer.Vector("__georchestra_osm2geor", {
-            displayInLayerSwitcher: true,
-            styleMap: new OpenLayers.StyleMap({})
+            displayInLayerSwitcher: true
         });
         this.item =  new Ext.menu.Item({
                 text:    'OSM 2 geOrchestra',
@@ -42,6 +41,16 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                               >;                                             \
                               out skel qt;',
             }],
+            listeners: {
+                'show': function() {
+                    this.map.addLayer(this.layer);
+                },
+                'hide': function() {
+                    this.map.removeLayer(this.layer);
+                },
+                scope: this
+            },
+
             fbar: ['->', {
                 text: OpenLayers.i18n("Execute"),
                 handler: function() {
@@ -56,7 +65,10 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                 	        data: query
                 	    },
                 	    success: function(response) {
-                                features = (new OpenLayers.Format.GeoJSON()).read(response.responseText);
+                                var features = (new OpenLayers.Format.GeoJSON({
+                                   externalProjection: new OpenLayers.Projection("EPSG:4326"),
+                                   internalProjection: this.map.getProjectionObject() 
+                                })).read(response.responseText);
                                 this.layer.removeAllFeatures();
                                 this.layer.addFeatures(features);
                             },
@@ -93,3 +105,4 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
         GEOR.Addons.Base.prototype.destroy.call(this);
     }
 });
+
