@@ -65,6 +65,7 @@ public class OverpassController {
 
         }
         try {
+            response.setContentType("application/json; charset=UTF-8");
             response.getOutputStream().write(objs.toString(4).getBytes());
         } catch (JSONException e) {
             // Error occured when trying to dump the Overpass API response
