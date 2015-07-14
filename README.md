@@ -2,6 +2,18 @@
 Mapfishapp addon to be able to retrieve data from osm (using overpass-api) into a vector layer
 
 # Setup
+If you are using "geOrchestra Enterprise Edition" (https://github.com/pmauduit/georchestra/tree/georchestra-datadir):
+
+```
+mkdir -p /path/to/your/georchestra/datadir/mapfishapp/app/addons/osm2geor
+cp -r css/ img/ js/ config.json manifest.json /path/to/your/georchestra/datadir/mapfishapp/app/addons/osm2geor
+cd java/
+mvn clean package
+```
+Then just deploy the generated `target/osm2geor-mapfishapp-addon.jar`, into the `WEB-INF/lib/` directory of your mapfishapp deployment. No other configuration file to edit.
+
+
+Regular geOrchestra setup:
 
 ```
 mkdir -p /path/to/your/deployed/mapfishapp/app/addons/osm2geor
@@ -39,6 +51,7 @@ ADDONS: [...,
 ```
 
 Restart your tomcat containing mapfishapp, you should be good to go.
+
 
 # Usage sample (video)
 
