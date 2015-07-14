@@ -6,6 +6,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Test;
@@ -23,6 +24,28 @@ public class OverpassJSONUtilsTest {
 
         assertTrue("Expected 40 features, found " + ret.getJSONArray("features").length(),
                 ret.getJSONArray("features").length() == 40);
-        // TODO better checks ...
+    }
+
+    @Test
+    public void toGeoJSONRelationTest() throws Exception {
+        URL testFile = this.getClass().getResource("/opassapirel.json");
+        assertTrue("testFile not found: opassapirel.json", testFile != null);
+        JSONTokener t = new JSONTokener(FileUtils.readFileToString(new File(testFile.toURI())));
+        JSONObject testInput = new JSONObject(t);
+
+        JSONObject ret = OverpassJSONUtils.toGeoJSON(testInput);
+
+        assertTrue("Expected 525 features, found " + ret.getJSONArray("features").length(),
+                ret.getJSONArray("features").length() == 525);
+        // The asset should contain at least one GeometryCollection
+        JSONArray feat = ret.getJSONArray("features");
+        int featCollectionCount = 0;
+        for (int i = 0 ; i < feat.length(); i++) {
+            JSONObject curf = feat.getJSONObject(i);
+            if (curf.getJSONObject("geometry").getString("type").equals("GeometryCollection")) {
+                featCollectionCount++;
+            }
+        }
+        assertTrue("expected 1 feature collection, found " + featCollectionCount, featCollectionCount == 1);
     }
 }
