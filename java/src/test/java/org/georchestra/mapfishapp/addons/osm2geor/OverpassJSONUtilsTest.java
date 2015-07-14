@@ -27,6 +27,23 @@ public class OverpassJSONUtilsTest {
     }
 
     @Test
+    public void toGeJSONPolygonTest() throws Exception {
+            URL testFile = this.getClass().getResource("/opassapipoly.json");
+            assertTrue("testFile not found: opassapipoly.json", testFile != null);
+            JSONTokener t = new JSONTokener(FileUtils.readFileToString(new File(testFile.toURI())));
+            JSONObject testInput = new JSONObject(t);
+
+            JSONObject ret = OverpassJSONUtils.toGeoJSON(testInput);
+
+            assertTrue("Expected 1 feature, found " + ret.getJSONArray("features").length(),
+                    ret.getJSONArray("features").length() == 1);
+            // the feature should be a polygon
+            assertTrue("Expected a polygon",
+                    ret.getJSONArray("features").getJSONObject(0).
+                    getJSONObject("geometry").getString("type").equals("Polygon"));
+    }
+
+    @Test
     public void toGeoJSONRelationTest() throws Exception {
         URL testFile = this.getClass().getResource("/opassapirel.json");
         assertTrue("testFile not found: opassapirel.json", testFile != null);
