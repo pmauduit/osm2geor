@@ -88,10 +88,10 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
                                 var jsStyle = new OpenLayers.Format.JSON({}).read(this._styleTextArea.getValue());
                                 var customStyle = new OpenLayers.Style(jsStyle);
                                 this.layer.styleMap = new OpenLayers.StyleMap(customStyle);
-                                this.layer.redraw();
                             } else {
                                 this.layer.styleMap = new OpenLayers.StyleMap();
                             }
+                            this.layer.redraw();
                             var features = (new OpenLayers.Format.GeoJSON({
                                 externalProjection: new OpenLayers.Projection("EPSG:4326"),
                                 internalProjection: this.map.getProjectionObject()
