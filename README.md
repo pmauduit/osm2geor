@@ -2,7 +2,7 @@
 Mapfishapp addon to be able to retrieve data from osm (using overpass-api) into a vector layer
 
 # Setup
-If you are using "geOrchestra Enterprise Edition" (https://github.com/pmauduit/georchestra/tree/georchestra-datadir):
+If you are using *MY GEORCHESTRA FORK* (https://github.com/pmauduit/georchestra/tree/georchestra-datadir):
 
 ```
 mkdir -p /path/to/your/georchestra/datadir/mapfishapp/app/addons/osm2geor
