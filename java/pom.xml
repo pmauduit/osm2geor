@@ -5,7 +5,7 @@
   <artifactId>osm2geor-java</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>osm2geor</name>
+  <name>osm2geOrchestra mapfishapp addon</name>
   <description>This project contains the server-side code necessary to the osm2geor mapfishapp addon</description>
   <url>http://maven.apache.org</url>
   <properties>
