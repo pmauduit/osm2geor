@@ -69,6 +69,108 @@
           <finalName>osm2geor-mapfishapp-addon</finalName>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.3</version>
+        <executions>
+          <execution>
+            <id>copy-js-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <overwrite>true</overwrite>
+              <outputDirectory>${basedir}/src/deb/resources/etc/georchestra/mapfishapp/addons/osm2geor</outputDirectory>
+              <resources>
+                <!-- config.json  css  img  java  js  manifest.json  README.md -->
+                <resource>
+                  <directory>${basedir}/../</directory>
+                  <excludes>
+                    <exclude>java/</exclude>
+                    <exclude>.git/</exclude>
+                    <exclude>.project</exclude>
+                    <exclude>.settings/</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-deb-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <overwrite>true</overwrite>
+              <outputDirectory>${basedir}/target/deb</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/deb/resources</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>fix-permissions</id>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <chmod perm="ugo+x">
+                  <fileset dir="${basedir}/target/deb">
+                    <include name="**/bin/**"/>
+                    <include name="**/sbin/**"/>
+                    <include name="DEBIAN/post*"/>
+                    <include name="DEBIAN/pre*"/>
+                  </fileset>
+                </chmod>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.6.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/deb/resources/etc/georchestra/mapfishapp/addons</directory>
+              <includes>
+                <include>**</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.sf.debian-maven</groupId>
+        <artifactId>debian-maven-plugin</artifactId>
+        <version>1.0.6</version>
+        <configuration>
+          <packageName>georchestra-mapfishapp-osm2geor</packageName>
+          <packageDescription>Debian package for the geOrchestra's Viewer Addon Osm2geOr</packageDescription>
+          <projectOrganization>geOrchestra</projectOrganization>
+          <maintainerName>Pierre Mauduit</maintainerName>
+          <maintainerEmail>pierre.mauduit@gmail.com</maintainerEmail>
+          <excludeAllDependencies>true</excludeAllDependencies>
+          <packageDependencies>
+            <packageDependency>georchestra-mapfishapp</packageDependency>
+          </packageDependencies>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
