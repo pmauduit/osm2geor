@@ -1,0 +1,26 @@
+#!/bin/sh
+
+MAPFISHAPP_WEBAPP=/usr/share/lib/georchestra-mapfishapp/mapfishapp-generic.war
+OSM2GEOR_PLUGIN=/usr/share/lib/georchestra-mapfishapp-osm2geor/osm2geor-mapfishapp-addon.jar
+
+
+if [ ! -f $MAPFISHAPP_WEBAPP ] ; then
+  echo "Mapfishapp webapp not found !" ;
+  exit 1 ;
+fi
+
+ALREADY_INJECTED="$(jar tf $MAPFISHAPP_WEBAPP | grep $(basename ${OSM2GEOR_PLUGIN}) | wc -l)"
+
+if [ $ALREADY_INJECTED -eq 1 ] ; then
+  echo "osm2geor addon already injected into the webapp" ;
+  echo "updating ...";
+fi
+
+OSM2GEOR_TEMP_DIR=$(mktemp -d osm2georXXX)
+mkdir -p ${OSM2GEOR_TEMP_DIR}/WEB-INF/lib/
+cp -v $OSM2GEOR_PLUGIN ${OSM2GEOR_TEMP_DIR}/WEB-INF/lib/
+jar uvf $MAPFISHAPP_WEBAPP -C $OSM2GEOR_TEMP_DIR WEB-INF/lib/osm2geor-mapfishapp-addon.jar
+rm -rf ${OSM2GEOR_TEMP_DIR}
+
+echo "Done. Please restart the application server containing mapfishapp."
+
