@@ -161,7 +161,7 @@
         <version>1.0.6</version>
         <configuration>
           <packageName>georchestra-mapfishapp-osm2geor</packageName>
-          <packageDescription>Debian package for the geOrchestra's Viewer Addon Osm2geOr</packageDescription>
+          <packageDescription>osm2georchestra is an addon for Mapfishapp, the viewer integrated into geOrchestra</packageDescription>
           <projectOrganization>geOrchestra</projectOrganization>
           <maintainerName>Pierre Mauduit</maintainerName>
           <maintainerEmail>pierre.mauduit@gmail.com</maintainerEmail>
