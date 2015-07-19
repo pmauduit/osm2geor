@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MAPFISHAPP_WEBAPP=/usr/share/lib/georchestra-mapfishapp/mapfishapp-generic.war
-OSM2GEOR_PLUGIN=/usr/share/lib/georchestra-mapfishapp-osm2geor/osm2geor-mapfishapp-addon.jar
+OSM2GEOR_PLUGIN=/usr/share/lib/georchestra-mapfishapp-osm2geor/osm2geor-mapfishapp-addon-jar-with-dependencies.jar
 
 
 if [ ! -f $MAPFISHAPP_WEBAPP ] ; then
@@ -19,8 +19,10 @@ fi
 OSM2GEOR_TEMP_DIR=$(mktemp -d osm2georXXX)
 mkdir -p ${OSM2GEOR_TEMP_DIR}/WEB-INF/lib/
 cp -v $OSM2GEOR_PLUGIN ${OSM2GEOR_TEMP_DIR}/WEB-INF/lib/
-jar uvf $MAPFISHAPP_WEBAPP -C $OSM2GEOR_TEMP_DIR WEB-INF/lib/osm2geor-mapfishapp-addon.jar
+jar uvf $MAPFISHAPP_WEBAPP -C $OSM2GEOR_TEMP_DIR WEB-INF/lib/osm2geor-mapfishapp-addon-jar-with-dependencies.jar
 rm -rf ${OSM2GEOR_TEMP_DIR}
+
+chmod 644 ${MAPFISHAPP_WEBAPP}
 
 echo "Done. Please restart the application server containing mapfishapp."
 
