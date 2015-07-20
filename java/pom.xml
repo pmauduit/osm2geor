@@ -7,7 +7,7 @@
   <packaging>jar</packaging>
   <name>osm2geOrchestra mapfishapp addon</name>
   <description>This project contains the server-side code necessary to the osm2geor mapfishapp addon</description>
-  <url>http://maven.apache.org</url>
+  <url>http://github.com/pmauduit/osm2geor</url>
   <properties>
     <spring.version>3.1.0.RELEASE</spring.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
