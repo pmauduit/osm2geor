@@ -66,6 +66,24 @@
     <system>GitHub</system>
     <url>http://github.com/pmauduit/osm2geor</url>
   </issueManagement>
+  <developers>
+    <developer>
+      <id>pmauduit</id>
+      <name>Pierre Mauduit</name>
+      <email>pierre.mauduit@gmail.com</email>
+      <url>http://pmauduit.github.io</url>
+      <organization>Camptocamp</organization>
+      <organizationUrl>http://www.camptocamp.com</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Paris</timezone>
+      <properties>
+        <picUrl>https://avatars2.githubusercontent.com/u/594335</picUrl>
+      </properties>
+    </developer>
+  </developers>
   <dependencies>
     <!--
 
