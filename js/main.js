@@ -13,12 +13,20 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             displayInLayerSwitcher: true
         });
         this.item =  new Ext.menu.Item({
-                text:    'OSM 2 geOrchestra',
-                qtip:    'OSM to geOrchestra addon',
+                text:    this.tr('OSM to geOrchestra'),
+                qtip:    this.tr('This addon allows you to display OSM data in your map'),
                 iconCls: 'osm2geor-icon',
                 handler: this.showWindow,
                 scope:   this
         });
+    },
+
+    /**
+     * Method: tr
+     *
+     */
+    tr: function(a) {
+      return OpenLayers.i18n(a);
     },
 
     createWindow: function() {
@@ -26,7 +34,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             name       : 'overpassApiQuery',
             width      : 375,
             height     : 150,
-            fieldLabel : 'Overpass API query',
+            fieldLabel : this.tr('Query'),
             value      : '[out:json][timeout:25];(        \n \
                             node["highway"]{{BBOX}};      \n \
                             way["highway"]{{BBOX}};       \n \
@@ -37,7 +45,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
         });
         this._styleTextArea = new Ext.form.TextArea({
             name       : 'olStyle',
-            fieldLabel : 'OpenLayers style',
+            fieldLabel : this.tr('Style'),
             value      : '{                                   \
                 "strokeWidth": 2,                             \
                 "strokeColor": "#ddd",                        \
@@ -47,7 +55,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             height     : 150
         });
         this._keepPreviousFeatures = new Ext.form.Checkbox({
-           boxLabel   : 'Keep previously loaded features',
+           boxLabel   : this.tr('Keep previously loaded features'),
            checked    : false
         });
 
@@ -56,7 +64,7 @@ GEOR.Addons.Osm2Geor = Ext.extend(GEOR.Addons.Base, {
             closeAction: 'hide',
             width: 500,
             height: 400,
-            title: "OSM 2 geOrchestra",
+            title: this.tr("OSM to geOrchestra"),
             border: false,
             buttonAlign: 'left',
             layout: 'form',
