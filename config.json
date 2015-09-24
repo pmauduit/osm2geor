@@ -5,11 +5,13 @@
         "title": {
             "fr": "osm2geor",
             "en": "osm2geor",
+            "de": "osm2geor",
             "es": "osm2geor"
         },
         "description": {
             "fr": "osm2geOr est un greffon permettant de requêter l'overpass-API OpenStreetMap et de charger une nouvelle couche",
             "en": "osm2geOr is an addon which allows querying the OSM overpass-API and to load the result as a new layer",
+            "de": "Dieses Add-on ermöglicht es die OSM-Daten in Ihrer Karte anzuzeigen",
             "es": "osm2geOr es un plugin para interrogar el OSM overpass-API y cargar el resultado como un nuevo layer"
         }
 }]
